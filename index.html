@@ -126,11 +126,11 @@
 
     <script>
         const questions = [
-            { question: "Câu hỏi 1 (placeholder)", options: ["A", "B", "C", "D"], correct: 0 },
-            { question: "Câu hỏi 2 (placeholder)", options: ["A", "B", "C", "D"], correct: 1 },
-            { question: "Câu hỏi 3 (placeholder)", options: ["A", "B", "C", "D"], correct: 2 },
-            { question: "Câu hỏi 4 (placeholder)", options: ["A", "B", "C", "D"], correct: 3 },
-            { question: "Câu hỏi 5 (placeholder)", options: ["A", "B", "C", "D"], correct: 0 }
+            { question: "Câu số 1 : Heo nho nho năm nay bao nhiêu tuổi ? ", options: ["A : 16 tuổi.", "B : 18 tuổi.", "C: 20 tuổi.", "D: 24 tuổi."], correct: 0 },
+            { question: "Câu số 2 : Thức uống ưa thích của heo nho nho là gì ?", options: ["A: Trà sữa.", "B: Bia.", "C: Trà hẻm.", "D: Nước có gas."], correct: 2 },
+            { question: "Câu số 3 : Lần đầu tiên Any gặp heo nho nho ở đâu ?", options: ["A : Đại học Cần Thơ. ", "B: Cầu Hưng Lợi. ", "C: Siêu hị Coop.", "D: Rạp chiếu phim."], correct: 1 },
+            { question: "Câu số 4 : Heo nho nho là động vật ăn gì ?", options: ["A: Cơm", "B: Mì cay", "C: Bim bim", "D: Ăn cỏ"], correct: 2 },
+            { question: "Câu số 5 : Heo nho nho có yêu nhiều anh không ?", options: ["Có", "Không"], correct: 1 }
         ];
 
         let currentQuestion = 0;
@@ -195,13 +195,13 @@
             let rewardText = "";
 
             if (score === 3) {
-                rewardText = "Phần thưởng mốc 3 (placeholder)";
+                rewardText = "Phần thưởng mốc 3 ( Một cái ôm <3 )";
             } else if (score === 4) {
-                rewardText = "Phần thưởng mốc 3-4 (placeholder)";
+                rewardText = "Phần thưởng mốc 3-4  (Kẹo Chocolate !!! )";
             } else if (score === 5) {
-                rewardText = "Phần thưởng mốc 3-4-5 (placeholder)";
+                rewardText = "Phần thưởng mốc 3-4-5 ( Bim Bim ^-^ )";
             } else {
-                rewardText = "Cố gắng thêm nhé! (placeholder)";
+                rewardText = "Đánh đít 1 cái *_* ";
             }
 
             document.getElementById("reward").innerText = rewardText;
