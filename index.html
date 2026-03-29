@@ -12,11 +12,10 @@
             font-family: "Segoe UI", sans-serif;
             background: #ffeef2;
 
-            /* CĂN GIỮA TOÀN MÀN HÌNH */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
@@ -31,15 +30,19 @@
         }
 
         img {
-            width: 260px;
+            width: 90%;
+            max-width: 400px;
             border-radius: 16px;
-            margin: 15px 0;
+            margin: 15px auto;
+            display: block;
         }
 
         video {
             width: 60%;
+            max-width: 260px;
             border-radius: 16px;
-            margin-top: 15px;
+            margin: 15px auto;
+            display: block;
         }
 
         .btn {
@@ -65,7 +68,7 @@
         }
 
         .selected {
-            background: #55efc4 !important;
+            background: #ffeaa7 !important;
         }
 
         .hidden {
@@ -79,21 +82,23 @@
         }
 
         .result {
-            font-size: 22px;
-            margin-top: 15px;
+            font-size: 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- NHẠC -->
+    <audio id="bg-music" src="mp3.mp3" loop></audio>
+
     <div class="container">
 
         <!-- Trang 1 -->
         <div id="start-screen">
-            <h1>Chào mừng đến với chương trình đố vui cho bé </h1>
+            <h1>Chào mừng đến với chương trình đố vui cho bé</h1>
 
-            <!-- ẢNH -->
             <img src="anh1.jpg" alt="ảnh dễ thương">
 
             <button class="btn big-btn" onclick="startQuiz()">Bắt đầu</button>
@@ -113,10 +118,8 @@
             <div class="result" id="score"></div>
             <div class="result" id="reward"></div>
 
-            <!-- VIDEO -->
             <video id="result-video" controls muted playsinline>
                 <source src="video2.mp4" type="video/mp4">
-                Trình duyệt không hỗ trợ video
             </video>
 
             <button class="btn" onclick="restart()">Chơi lại</button>
@@ -126,9 +129,9 @@
 
     <script>
         const questions = [
-            { question: "Câu số 1 : Heo nho nho năm nay bao nhiêu tuổi ? ", options: ["A : 16 tuổi.", "B : 18 tuổi.", "C: 20 tuổi.", "D: 24 tuổi."], correct: 0 },
+            { question: "Câu số 1 : Heo nho nho năm nay bao nhiêu tuổi ?", options: ["A : 16 tuổi.", "B : 18 tuổi.", "C: 20 tuổi.", "D: 24 tuổi."], correct: 0 },
             { question: "Câu số 2 : Thức uống ưa thích của heo nho nho là gì ?", options: ["A: Trà sữa.", "B: Bia.", "C: Trà hẻm.", "D: Nước có gas."], correct: 2 },
-            { question: "Câu số 3 : Lần đầu tiên Any gặp heo nho nho ở đâu ?", options: ["A : Đại học Cần Thơ. ", "B: Cầu Hưng Lợi. ", "C: Siêu hị Coop.", "D: Rạp chiếu phim."], correct: 1 },
+            { question: "Câu số 3 : Lần đầu tiên Any gặp heo nho nho ở đâu ?", options: ["A : Đại học Cần Thơ.", "B: Cầu Hưng Lợi.", "C: Siêu thị Coop.", "D: Rạp chiếu phim."], correct: 1 },
             { question: "Câu số 4 : Heo nho nho là động vật ăn gì ?", options: ["A: Cơm", "B: Mì cay", "C: Bim bim", "D: Ăn cỏ"], correct: 2 },
             { question: "Câu số 5 : Heo nho nho có yêu nhiều anh không ?", options: ["Có", "Không"], correct: 1 }
         ];
@@ -140,6 +143,9 @@
         function startQuiz() {
             document.getElementById("start-screen").classList.add("hidden");
             document.getElementById("quiz-screen").classList.remove("hidden");
+
+            document.getElementById("bg-music").play();
+
             loadQuestion();
         }
 
@@ -173,17 +179,31 @@
                 return;
             }
 
-            if (selected === questions[currentQuestion].correct) {
+            const correctIndex = questions[currentQuestion].correct;
+            const buttons = document.querySelectorAll(".option");
+
+            buttons.forEach((btn, index) => {
+                if (index === correctIndex) {
+                    btn.style.background = "#55efc4";
+                }
+                if (index === selected && selected !== correctIndex) {
+                    btn.style.background = "#ff7675";
+                }
+            });
+
+            if (selected === correctIndex) {
                 score++;
             }
 
-            currentQuestion++;
+            setTimeout(() => {
+                currentQuestion++;
 
-            if (currentQuestion < questions.length) {
-                loadQuestion();
-            } else {
-                showResult();
-            }
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000);
         }
 
         function showResult() {
@@ -192,19 +212,23 @@
 
             document.getElementById("score").innerText = score + "/" + questions.length;
 
-            let rewardText = "";
+            let rewards = [];
 
-            if (score === 3) {
-                rewardText = "Phần thưởng mốc 3 ( Một cái ôm <3 )";
-            } else if (score === 4) {
-                rewardText = "Phần thưởng mốc 3-4  (Kẹo Chocolate !!! )";
-            } else if (score === 5) {
-                rewardText = "Phần thưởng mốc 3-4-5 ( Bim Bim ^-^ )";
-            } else {
-                rewardText = "Đánh đít 1 cái *_* ";
+            if (score >= 3) {
+                rewards.push("🎁 Mốc 3: Một cái ôm <3");
+            }
+            if (score >= 4) {
+                rewards.push("🍫 Mốc 4: Kẹo Chocolate !!!");
+            }
+            if (score >= 5) {
+                rewards.push("😆 Mốc 5: Bim Bim ^-^");
             }
 
-            document.getElementById("reward").innerText = rewardText;
+            let rewardText = rewards.length > 0
+                ? rewards.join("<br>")
+                : "😢 Đánh đít 1 cái *_*";
+
+            document.getElementById("reward").innerHTML = rewardText;
 
             const video = document.getElementById("result-video");
             video.currentTime = 0;
